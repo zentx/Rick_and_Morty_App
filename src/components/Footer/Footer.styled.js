@@ -8,6 +8,7 @@ export const StyledFooter = styled.footer`
     bottom: 0;
     width: 100%;
     font-family: 'Source Sans Pro', sans-serif;
+    overflow: hidden;
     
 
     .splitter {

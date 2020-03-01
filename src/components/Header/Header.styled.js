@@ -9,6 +9,8 @@ export const StyledHeader = styled.div`
     top: 0;
     width: 100%;
     font-family: Verdana;
+    overflow: hidden;
+    z-index: 20;
 
 
     .menu {
