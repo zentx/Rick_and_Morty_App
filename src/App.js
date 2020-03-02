@@ -4,7 +4,6 @@ import { Header, Episodes, Characters, Footer, NoMatch } from './components';
 import { GlobalStyles } from './global';
 import './lib/bootstrap/dist/css/bootstrap.min.css';
 
-
 class DivApp extends Component{
 
   constructor(props) {
