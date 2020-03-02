@@ -3,9 +3,9 @@ Aplicación web dedicada a la consulta de episodios y personajes provenientes de
 
   Como correr el proyecto:
   
-    -	Instalar node.js de la siguiente liga: https://nodejs.org/es/
+    - Instalar node.js de la siguiente liga: https://nodejs.org/es/
     
-    -	Entrar a consola y redirigirse a la carpeta donde se encuentra el archivo
+    - Entrar a consola y redirigirse a la carpeta donde se encuentra el archivo
     
     - Instalar create-react-app por medio del comando 
       npm install -g create-react-app
@@ -13,9 +13,9 @@ Aplicación web dedicada a la consulta de episodios y personajes provenientes de
     - Correr desde consola el siguiente comando: 
       npm install @material-ui/core axios react-bootstrap bootstrap express material-table styled-components react-router-dom
     
-    -	Correr el comando npm start para iniciar el entorno de desarrollo
+    - Correr el comando npm start para iniciar el entorno de desarrollo
     
-    -	Ingresar a  http://localhost:3000/ (el puerto puede cambiar según configuraciones) 
+    - Ingresar a  http://localhost:3000/ (el puerto puede cambiar según configuraciones) 
     
     - Correr el comando npm run build para levantar el entorno de producción
     
