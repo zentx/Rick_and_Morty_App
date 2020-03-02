@@ -37,3 +37,10 @@ export const StyledTable = styled.div`
     }
 
 `
+
+export const StyledDiv = styled.div`
+    display: flex;
+    justify-content: center;
+    overflow: auto;
+    margin: 300px 50px;
+`

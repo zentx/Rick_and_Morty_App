@@ -1,10 +1,8 @@
 import React, { Component, useState } from 'react';
-import { StyledTable, StyledDiv } from './Table.styled';
+import { StyledTable, StyledDiv } from './Characters.styled';
 import MaterialTable from 'material-table';
 import { Spinner, Alert } from 'react-bootstrap';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom'
-
 
 function AlertDismissible(props) {
     const [show, setShow] = useState(true);
@@ -14,7 +12,7 @@ function AlertDismissible(props) {
         <Alert show={show} variant="light">
           <Alert.Heading>ERROR!</Alert.Heading>
           <p>
-            { props.value }
+            
           </p>
           <hr />
         </Alert>
@@ -22,55 +20,40 @@ function AlertDismissible(props) {
     );
   }
 
-
-
-class MainTable extends Component{
+class Characters extends Component{
 
     constructor(props) {
         super(props);
         this.state = {
           selectedRow: null,
-          id: 0,
           loading: true,
           data: null,
           error: null,
-          redirect: false,
         }
     }
 
-    setRedirect = () => {
-      this.setState({
-        redirect: true
-      })
-    }  
-    
-    renderRedirect = () => {
-      if (this.state.redirect) {
-        const url = '/characters/' + this.state.id;
-        return <Redirect to={url} />
-      }
-    }
-
     async componentDidMount() {
-      const API = 'https://rickandmortyapi.com/api/episode?page=';
-      const DEFAULT_QUERY = '1';
+      const API = 'https://rickandmortyapi.com/api/episode/';
+      const URL = 'https://rickandmortyapi.com/api/character/';
+      const DEFAULT_QUERY = this.props.match.params.id;
       this.setState({ loading: true });
-    
+        
         try {
           const result = await axios.get(API + DEFAULT_QUERY);
-          var data = new Array();
-          data.push(...result.data.results);
-          if(result.data.info.pages > 1){
-            for(let i = 2; i <= result.data.info.pages; i++){
-                let resp = await axios.get(API + i);
-                data.push(...resp.data.results);
-            }
+          var arr = new Array();
+        
+          for(let i = 0; i < result.data.characters.length; i++){
+            arr.push(result.data.characters[i].substring(42));
           }
+
+          const data = await axios.get(URL + arr);
+
           this.setState({
-            data: data,
+            data: data.data,
             loading: false
           });
-          this.props.updateHome();
+          
+          this.props.updateChara();
         } catch (error) {
           this.setState({
             error,
@@ -79,34 +62,28 @@ class MainTable extends Component{
         }
     }
 
-
-
     render(){
         const { data, error, loading } = this.state;
-        
+
         if (error) return <StyledTable> <AlertDismissible value={error.message} /></StyledTable>;
 
         if (loading) return <StyledDiv><Spinner animation="grow" variant="light" size="lg" /></StyledDiv>;
+
         return(
-            
+
             <StyledTable>
-                {this.renderRedirect()}
                 <MaterialTable
-                    title="Lista de Episodios"
+                    title="Lista de Personajes"
                     columns={[
-                        { title: 'Numero de Episodio', field: 'id'},
-                        { title: 'Nombre', field: 'name' },
-                        { title: 'Fecha de Salida', field: 'air_date', type: 'date' },
+                        { title: 'Nombre', field: 'name'},
+                        { title: 'Estatus', field: 'status'},
+                        { title: 'Especie', field: 'species' },
+                        { title: 'Genero', field: 'gender' },
+                        {title: 'Imagen', field: 'image', render: rowData => <img src={rowData.image} style={{width: 40, borderRadius: '50%'}}/> }
+
                         
                     ]}
                     data={data}
-                    actions={[
-                        {
-                          icon: 'forward',   
-                          tooltip: 'Consultar Personajes',
-                          onClick: (event, rowData) => { this.setState({id: rowData.id}); this.setRedirect(); }
-                        }
-                      ]}
                     onRowClick={((evt, selectedRow) => this.setState({ selectedRow }))}
                     options={{
                         rowStyle: rowData => ({
@@ -114,15 +91,10 @@ class MainTable extends Component{
                         }),
                         actionsColumnIndex: -1
                     }}
-                    localization={{
-                        header: {
-                          actions: 'Consultar Personajes'
-                        },
-                      }}
                 />
             </StyledTable>
         );
     }
 }
 
-export default MainTable;
+export default Characters;

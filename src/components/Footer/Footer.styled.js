@@ -43,7 +43,7 @@ export const StyledFooter = styled.footer`
 
     .bar {
         background-color: #1E2629;
-        padding: 20px 0;
+        padding: 30px 0;
         height: 40px;
     }
 

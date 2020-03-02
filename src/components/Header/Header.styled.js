@@ -72,6 +72,11 @@ export const StyledHeader = styled.div`
         padding: 0 3px;
     }
     
+    .inactive {
+        pointer-events: none;
+        cursor: default;
+    }
+
     .menu_link:hover {
         color: #32a852;
     }
