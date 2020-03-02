@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { StyledTable, StyledDiv } from './Table.styled';
+import { StyledTable, StyledDiv } from './Episodes.styled';
 import MaterialTable from 'material-table';
 import { Spinner, Alert } from 'react-bootstrap';
 import axios from 'axios';

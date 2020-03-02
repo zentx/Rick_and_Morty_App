@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, HashRouter, Switch } from "react-router-dom";
-import { Header,Table, Characters, Footer, NoMatch } from './components'; 
+import { Header, Episodes, Characters, Footer, NoMatch } from './components'; 
 import { GlobalStyles } from './global';
 import './lib/bootstrap/dist/css/bootstrap.min.css';
 
@@ -31,7 +31,7 @@ class DivApp extends Component{
         <Header home={ this.state.homeActive } chara={ this.state.charaActive } />
             <div className="content">
               <Switch>
-                <Route exact path="/" render={(props) => <Table {...props} updateHome={ this.highHome.bind(this) } />} />
+                <Route exact path="/" render={(props) => <Episodes {...props} updateHome={ this.highHome.bind(this) } />} />
                 <Route path="/characters/:id" render={(props) => <Characters {...props} updateChara={ this.highChara.bind(this) } />} />
                 <Route component={NoMatch}/>
               </Switch>
