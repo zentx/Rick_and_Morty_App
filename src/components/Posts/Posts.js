@@ -45,13 +45,8 @@ class MainTable extends Component{
     }  
 
     erasePost = (id) => {
-      alert(id);
       try {
-        alert(comence);
       axios.delete('http://jsonplaceholder.typicode.com//posts/' + id)
-      .then(response => {
-        alert("Se borro el elemento seleccionado");
-      });
       } catch (error) {
         alert("error");
         this.setState({
