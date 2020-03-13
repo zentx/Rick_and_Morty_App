@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { StyledTable, StyledDiv } from './Characters.styled';
+import { StyledTable, StyledDiv } from './Comments.styled';
 import MaterialTable from 'material-table';
 import { Spinner, Alert } from 'react-bootstrap';
 import axios from 'axios';
@@ -33,23 +33,18 @@ class Characters extends Component{
     }
 
     async componentDidMount() {
-      const API = 'https://rickandmortyapi.com/api/episode/';
-      const URL = 'https://rickandmortyapi.com/api/character/';
-      const DEFAULT_QUERY = this.props.match.params.id;
+      const API = 'http://jsonplaceholder.typicode.com/posts/' + this.props.match.params.id +'/comments';
+      console.log(API);
       this.setState({ loading: true });
         
         try {
-          const result = await axios.get(API + DEFAULT_QUERY);
-          var arr = new Array();
-        
-          for(let i = 0; i < result.data.characters.length; i++){
-            arr.push(result.data.characters[i].substring(42));
-          }
+          const result = await axios.get(API);
 
-          const data = await axios.get(URL + arr);
+          var data = new Array();
+          data.push(...result.data);
 
           this.setState({
-            data: data.data,
+            data: data,
             loading: false
           });
           
@@ -73,13 +68,13 @@ class Characters extends Component{
 
             <StyledTable>
                 <MaterialTable
-                    title="Lista de Personajes"
+                    title="Lista de Comentarios"
                     columns={[
-                        { title: 'Nombre', field: 'name'},
-                        { title: 'Estatus', field: 'status'},
-                        { title: 'Especie', field: 'species' },
-                        { title: 'Genero', field: 'gender' },
-                        {title: 'Imagen', field: 'image', render: rowData => <img src={rowData.image} style={{width: 40, borderRadius: '50%'}}/> }
+                        { title: 'ID Post', field: 'postId'},
+                        { title: 'id', field: 'id'},
+                        { title: 'Nombre', field: 'name' },
+                        { title: 'Email', field: 'email' },
+                        {title: 'Cuerpo', field: 'body' }
 
                         
                     ]}

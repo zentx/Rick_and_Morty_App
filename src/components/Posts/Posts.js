@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { StyledTable, StyledDiv } from './Episodes.styled';
+import { StyledTable, StyledDiv } from './Posts.styled';
 import MaterialTable from 'material-table';
 import { Spinner, Alert } from 'react-bootstrap';
 import axios from 'axios';
@@ -43,29 +43,40 @@ class MainTable extends Component{
         redirect: true
       })
     }  
+
+    erasePost = (id) => {
+      alert(id);
+      try {
+        alert(comence);
+      axios.delete('http://jsonplaceholder.typicode.com//posts/' + id)
+      .then(response => {
+        alert("Se borro el elemento seleccionado");
+      });
+      } catch (error) {
+        alert("error");
+        this.setState({
+          error,
+          loading: false
+        });
+      }
+    }
     
     renderRedirect = () => {
       if (this.state.redirect) {
-        const url = '/characters/' + this.state.id;
+        const url = '/posts/' + this.state.id;
         return <Redirect to={url} />
       }
     }
 
     async componentDidMount() {
-      const API = 'https://rickandmortyapi.com/api/episode?page=';
+      const API = 'http://jsonplaceholder.typicode.com/posts?page=';
       const DEFAULT_QUERY = '1';
       this.setState({ loading: true });
     
         try {
           const result = await axios.get(API + DEFAULT_QUERY);
           var data = new Array();
-          data.push(...result.data.results);
-          if(result.data.info.pages > 1){
-            for(let i = 2; i <= result.data.info.pages; i++){
-                let resp = await axios.get(API + i);
-                data.push(...resp.data.results);
-            }
-          }
+          data.push(...result.data);
           this.setState({
             data: data,
             loading: false
@@ -92,20 +103,27 @@ class MainTable extends Component{
             <StyledTable>
                 {this.renderRedirect()}
                 <MaterialTable
-                    title="Lista de Episodios"
+                    title="Lista de Posts"
                     columns={[
-                        { title: 'Numero de Episodio', field: 'id'},
-                        { title: 'Nombre', field: 'name' },
-                        { title: 'Fecha de Salida', field: 'air_date', type: 'date' },
+                        { title: 'id', field: 'id'},
+                        { title: 'ID Usuario', field: 'userId' },
+                        { title: 'Titulo', field: 'title' },
+                        { title: 'Cuerpo', field: 'body' },
                         
                     ]}
                     data={data}
                     actions={[
                         {
                           icon: 'forward',   
-                          tooltip: 'Consultar Personajes',
+                          tooltip: 'Consultar Comentarios',
                           onClick: (event, rowData) => { this.setState({id: rowData.id}); this.setRedirect(); }
+                        },
+                        {
+                          icon: 'delete',
+                          tooltip: 'Borrar post',
+                          onClick: (event, rowData) => { this.setState({id: rowData.id}); this.erasePost(rowData.id); }
                         }
+
                       ]}
                     onRowClick={((evt, selectedRow) => this.setState({ selectedRow }))}
                     options={{
@@ -116,7 +134,7 @@ class MainTable extends Component{
                     }}
                     localization={{
                         header: {
-                          actions: 'Consultar Personajes'
+                          actions: 'Consultar Comentarios'
                         },
                       }}
                 />
